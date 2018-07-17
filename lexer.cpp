@@ -73,6 +73,25 @@ bool Lexer :: parse(FILE *file)
 			
 			this->create_token();
 		}
+		
+		if ((char) byte == '"')
+		{
+			while ((byte = fgetc(file)) != '"')
+			{
+				if (byte == EOF)
+				{
+					#error
+				}
+				
+				this->buffer.append_c((char) byte);
+			}
+			
+			{
+				Token *token = new Token();
+				token->text.set(buffer);
+				BListNode::append(token, (BListNode **) &this->tokens);
+			}
+		}
 
 	}
 	
